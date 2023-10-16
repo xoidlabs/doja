@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "doja/jsx-runtime": ["./packages/doja/copy/jsx-runtime"],
+      "doja": ["./packages/doja/src"],
+      "@doja/*": ["./packages/*/src"]
+    },
+    "target": "es5",
+    "jsx": "react-jsx",
+    "downlevelIteration": true,
+    "strict": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "declarationDir": "dist/ts-out",
+    "esModuleInterop": true
+  },
+  "include": ["packages", "tests"]
+}
