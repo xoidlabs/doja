@@ -1,8 +1,11 @@
-import { Atom, GetState } from 'xoid'
+import type { Atom, GetState } from 'xoid'
 import jsxRuntime from 'doja/jsx-runtime'
 
-export * from 'xoid'
-export * from 'xoid/setup'
+export { create } from 'xoid'
+export type { Atom } from 'xoid'
+export { effect, inject } from 'xoid/setup'
+export type { InjectionKey } from 'xoid/setup'
+export { reactive, computed, watch, toReactive, toAtom } from '@xoid/reactive'
 
 export type DojaInput<P, _S> = ($props: Atom<P>) => (get: GetState) => JSX.Element | null
 
