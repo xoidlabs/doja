@@ -1,7 +1,7 @@
 /** @jsxImportSource doja */
 import Doja from 'doja'
-import toReact from '@doja/react'
-import toVue from '@doja/vue'
+import '@doja/react/auto'
+import '@doja/vue/auto'
 
 import { h } from 'vue'
 import { render as renderVue } from '@testing-library/vue'
@@ -18,15 +18,13 @@ const Parent = Doja(() => () => (
 const Child = Doja(() => () => <div>count: 1</div>)
 
 it('Renders markup in React', async () => {
-  const ParentReact = toReact(Parent)
-  const { findByText } = renderReact(React.createElement(ParentReact))
+  const { findByText } = renderReact(React.createElement(Parent))
 
   await findByText('count: 1')
 })
 
-it.only('Renders markup in Vue', async () => {
-  const ParentVue = toVue(Parent)
-  const { findByText } = renderVue(h(ParentVue))
+it('Renders markup in Vue', async () => {
+  const { findByText } = renderVue(h(Parent as any))
 
   await findByText('count: 1')
 })

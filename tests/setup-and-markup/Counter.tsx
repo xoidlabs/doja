@@ -1,21 +1,20 @@
 /** @jsxImportSource doja */
-import Doja, { effect, slots } from 'doja'
+import Doja, { create, effect, slots, watch } from 'doja'
 
-const Counter = Doja<{ initialValue: number }>(($props) => {
-  const $counter = $props.map((s) => s.initialValue)
-  const increment = () => $counter.update((s) => s + 1)
-  const decrement = () => $counter.update((s) => s - 1)
+const Counter = Doja<{ initialValue: number }>((props) => {
+  const $counter = create(props.initialValue)
+  watch(() => $counter.set(props.initialValue))
 
   effect(() => {
     console.log('mounted')
     return () => console.log('unmounted')
   })
 
-  return (get) => (
+  return () => (
     <div>
-      count: {get($counter)}
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
+      count: {$counter.value}
+      <button onClick={() => $counter.value++}>+</button>
+      <button onClick={() => $counter.value--}>-</button>
       {slots()}
     </div>
   )

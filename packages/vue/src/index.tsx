@@ -1,20 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { onUnmounted, defineComponent, getCurrentInstance, renderSlot } from 'vue'
-import Doja, { DojaFC, InjectionKey, create } from 'doja'
-import { createGetState } from '../../../packages/xoid/src/internal/utils'
+import Doja, { DojaFC, InjectionKey, create, toReactive } from 'doja'
 
-import jsxFrom from 'vue/jsx-runtime'
-import jsxTo from 'doja/jsx-runtime'
+// import jsxVue from 'vue/jsx-runtime'
+// import jsxDoja from 'doja/jsx-runtime'
 import { useSetup, createProvider } from '@xoid/vue'
+import { GetState } from 'xoid'
 
-const swapRuntime = () => {
-  ;(Doja as any).runtime = toVue
-  ;(jsxTo as any).jsx = jsxFrom.jsx
-  ;(jsxTo as any).jsxs = (jsxFrom as any).jsxs
-  ;(jsxTo as any).Fragment = jsxFrom.Fragment
+export { h, Fragment } from 'vue'
+
+// @ts-ignore
+const INTERNAL = create.internal.symbol
+
+export const createEvent = () => {
+  const fns = new Set<Function>()
+  const add = (fn: Function) => {
+    fns.add(fn)
+  }
+  const fire = () => {
+    fns.forEach((fn) => fn())
+    fns.clear()
+  }
+  return { add, fire }
 }
 
-const { createEvent } = (create as any).internal
+export const createGetState =
+  (updateState: () => void, add: (fn: Function) => void): GetState =>
+  // @ts-ignore
+  (read) => {
+    // @ts-ignore
+    add(read.subscribe(updateState))
+    return (read as any)[INTERNAL].get()
+  }
 
 const toVue = (<T, U extends string>(arg: DojaFC<T, U>, arg2: any) => {
   if (typeof arg === 'symbol') {
@@ -24,9 +41,12 @@ const toVue = (<T, U extends string>(arg: DojaFC<T, U>, arg2: any) => {
   return defineComponent({
     props: arg.props || [],
     setup(props) {
-      swapRuntime()
       // @ts-ignore
-      const render = useSetup((arg as any).setup || arg, props as T)
+      // jsxDoja.current = jsxVue
+      // @ts-ignore
+      Doja.runtime = toVue
+      // @ts-ignore
+      const render = useSetup((props) => arg(toReactive(props)), props as T) as any
 
       const event = createEvent()
       const instance = getCurrentInstance()
@@ -39,7 +59,13 @@ const toVue = (<T, U extends string>(arg: DojaFC<T, U>, arg2: any) => {
       return () => {
         ;(Doja as any).runtime.slots = (key?: string) =>
           renderSlot((instance as any)?.proxy?.$slots, key || 'default')
-        return (render as any)(get)
+        // @ts-ignore
+        const tools = create.internal
+        const oldGet = tools.get
+        tools.get = get
+        const result = render()
+        tools.get = oldGet
+        return result
       }
     },
   })
@@ -49,3 +75,4 @@ const toVue = (<T, U extends string>(arg: DojaFC<T, U>, arg2: any) => {
 }
 
 export default toVue
+export * from 'doja'

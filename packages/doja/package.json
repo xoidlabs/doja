@@ -1,6 +1,6 @@
 {
   "name": "doja",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "./index.js",
   "module": "./index.esm.js",
   "types": "./index.d.ts",
@@ -21,6 +21,7 @@
     "components"
   ],
   "dependencies": {
-    "xoid": ">=1.0.0-beta.10"
+    "@xoid/reactive": "^0.0.2",
+    "xoid": ">=1.0.0-beta.11"
   }
 }

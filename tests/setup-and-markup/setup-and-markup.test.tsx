@@ -2,9 +2,10 @@ import React from 'react'
 
 import { fireEvent, render as renderReact } from '@testing-library/react'
 import { render as renderVue } from '@testing-library/vue'
-import CounterReact from './CounterReact'
-import CounterVue from './CounterVue'
+import Counter from './Counter'
 import { h, defineComponent } from 'vue'
+import '@doja/react/auto'
+import '@doja/vue/auto'
 
 describe('Same isomorphic component works in React and Vue', () => {
   const loggerFn = jest.fn()
@@ -23,12 +24,12 @@ describe('Same isomorphic component works in React and Vue', () => {
   test('React', async () => {
     const { findByText, getByText, rerender, unmount } = renderReact(
       // @ts-ignore
-      <CounterReact initialValue={5}>
+      <Counter initialValue={5}>
         <span>a slot renders me</span>
-      </CounterReact>
+      </Counter>
     )
 
-    // await findByText('a slot renders me')
+    await findByText('a slot renders me')
 
     expect(loggerFn).toBeCalledTimes(1)
     expect(loggerFn).toBeCalledWith('mounted')
@@ -37,20 +38,20 @@ describe('Same isomorphic component works in React and Vue', () => {
     fireEvent.click(getByText('+'))
     await findByText('count: 6')
 
-    rerender(<CounterReact initialValue={25} />)
+    rerender(<Counter initialValue={25} />)
 
     await findByText('count: 25')
     fireEvent.click(getByText('-'))
     await findByText('count: 24')
 
     unmount()
-    expect(loggerFn).toBeCalledTimes(2)
+    expect(loggerFn).toBeCalledTimes(4)
     expect(loggerFn).toBeCalledWith('unmounted')
   })
 
-  test.only('Vue', async () => {
+  test('Vue', async () => {
     const Wrapper = defineComponent(() => {
-      return () => h(CounterVue, { initialValue: 5 }, () => [h('div', {}, 'a slot renders me')])
+      return () => h(Counter as any, { initialValue: 5 }, () => [h('div', {}, 'a slot renders me')])
     })
 
     const { findByText, getByText, rerender, unmount } = renderVue(Wrapper)
@@ -71,7 +72,7 @@ describe('Same isomorphic component works in React and Vue', () => {
     await findByText('count: 24')
 
     unmount()
-    expect(loggerFn).toBeCalledTimes(2)
+    expect(loggerFn).toBeCalledTimes(4)
     expect(loggerFn).toBeCalledWith('unmounted')
   })
 })

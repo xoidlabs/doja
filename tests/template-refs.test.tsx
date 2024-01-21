@@ -1,5 +1,7 @@
 /** @jsxImportSource doja */
-import create, { effect } from 'xoid'
+import create from 'xoid'
+import { effect } from 'xoid/setup'
+
 import toReact from '@doja/react'
 import toVue from '@doja/vue'
 import React from 'react'

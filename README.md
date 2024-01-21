@@ -1,347 +1,157 @@
-<p align="center">
-  <a href="https://xoid.dev">
-    <img width="560" src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/logo-full.svg" />
-  </a>
-</p> 
+# Doja
 
-<p align="center">
-  <a href="#-react">
-    <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/react.ico" width="14"/>
-    React
-  </a>&nbsp;&nbsp;
-  <a href="#-vue">
-    <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/vue.png" width="14"/>
-    Vue
-  </a>&nbsp;&nbsp;
-  <a href="#-svelte">
-    <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/svelte.png" width="14"/>
-    Svelte
-  </a>&nbsp;&nbsp;
-  <a href="#subscriptions">
-    <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/js.png" width="14"/>
-    Vanilla JS
-  </a>&nbsp;&nbsp;
-  <a href="#subscriptions">
-    <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/redux.svg" width="14"/>
-    Redux Devtools
-  </a>
-</p>
+**Doja** lets you write components **ONCE**, then turn them into real Vue, React, or web components! This is achieved **WITHOUT** transpilation, plugins, or preprocessors.
 
-<p align="center">
-  <a href="https://bundlephobia.com/result?p=xoid" >
-    <img alt="Bundle Size" src="https://img.shields.io/bundlephobia/min/xoid?label=bundle%20size&style=flat&colorA=4f2eb3&colorB=4f2eb3">
-  </a>
-  <a href="https://www.npmjs.com/package/xoid">
-    <img alt="Version" src="https://img.shields.io/npm/v/xoid?style=flat&4f2eb3=293140&colorA=4f2eb3&colorB=4f2eb3">
-  </a>
-  <a href="https://www.npmjs.com/package/xoid">
-    <img alt="Downloads" src="https://img.shields.io/npm/dt/xoid.svg?style=flat&colorA=4f2eb3&colorB=4f2eb3"/>
-  </a>
-  <a href="https://www.npmjs.com/package/xoid">
-    <img alt="License" src="https://img.shields.io/github/license/onurkerimov/xoid?style=flat&4f2eb3=293140&colorA=4f2eb3&colorB=4f2eb3">
-  </a>
-</p>
+By itself, **Doja** doesn't have a lifecycle, context, or JSX implementation. **Doja**'s `effect` or `inject` exports connect to React's `useEffect` or Vue's `onMounted`/`onUnmounted` under the hood. Similarly, the `doja/jsx-runtime` is simply an empty object forwarded to React or Vue's own JSX runtimes. There are 3 packages at the moment:
+- `@doja/react` - React integration
+- `@doja/vue` - Vue integration
+- `@doja/pce` - Web components using the `preact-custom-element` package
 
+A **Doja** component is so simplistic, and you can use one of the following flavors:
 
-**xoid** (*ksoid or zoid*) is a framework-agnostic state management library. 
-**X** in its name is an ode to great projects such as Redu**X**, Mob**X** and **X**state. Its the result of careful analyses of different state management tools and paradigms. It was designed to be simple and scalable.
-
-The biggest aim of **xoid** is to unify global state, local component state, and finite state machines in the single API. It even has a basic support for observable streams. It might be the very first library to introduce the notion of [isomorphic component logic](#-isomorphic-component-logic) that's able to run across multiple frameworks. 
-With xoid, you can move business logic out of components in a **truly** framework-agnostic manner.
-
-
-While doing all these, it also cares about its package size (~1.2kB gzipped), and aims to keep itself approachable for newcomers. More features are explained below, and the [documentation website](https://xoid.dev).
-
-To install, run the following command:
-
-```bash
-npm install xoid
-```
-
----
-
-<h3 align="center">
-
-Visit [xoid.dev](https://xoid.dev) for detailed docs and recipes.
-
-</h3>
-
----
-
-## Examples
-
-- [Counter](https://github.com/onurkerimov/xoid/blob/master/examples/counter) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/counter)
-
-- [Todos (Basic)](https://github.com/onurkerimov/xoid/blob/master/examples/todos-basic) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/todos-basic)
-
-- [Todos (Filtered)](https://github.com/onurkerimov/xoid/blob/master/examples/todos-filtered) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/todos-filtered)
-
-- [Celcius-Fahrenheit conversion](https://github.com/onurkerimov/xoid/blob/master/examples/celcius-fahrenheit) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/celcius-fahrenheit)
-
-- [Finite state stopwatch](https://github.com/onurkerimov/xoid/blob/master/examples/finite-state-stopwatch) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/finite-state-stopwatch)
-
-- [Dots and arrows](https://githubbox.com/onurkerimov/xoid/tree/master/examples/dots-and-arrows) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/dots-and-arrows)
-
-- [Transient update resize observer](https://github.com/onurkerimov/xoid/blob/master/examples/transient-update-resize-observer) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/transient-update-resize-observer)
-
-- [xoid vs useReducer vs useMethods](https://githubbox.com/onurkerimov/xoid/tree/master/examples/xoid-vs-usereducer-vs-usemethods) [![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat&colorA=4f2eb3&colorB=4f2eb3&logo=codesandbox)](https://githubbox.com/onurkerimov/xoid/tree/master/examples/xoid-vs-usereducer-vs-usemethods)
-
-
-
-## Quick Tutorial
-
-### Atom
-
-Atoms are holders of state.
+### Function components
 
 ```js
-import create from 'xoid'
-// or: import { create } from 'xoid'
+import { create } from 'doja'
 
-const $count = create(3)
-console.log($count.value) // 3
-$count.set(5)
-$count.update((state) => state + 1)
-console.log($count.value) // 6
+const Counter = () => {
+  let count = create(0)
+  return () => (
+    <>
+      {count.value}
+      <button onClick={() => count.value++}>+</button>
+      <button onClick={() => count.value--}>-</button>
+    </>
+  )
+}
 ```
 
-Atoms may have actions.
+### Class components
 
 ```js
-import create from 'xoid'
-
-const $count = create(5, (atom) => ({
-  increment: () => atom.update(s => s + 1),
-  decrement: () => atom.update(s => s - 1)
-}))
-
-$count.actions.increment()
+class Counter extends Doja {
+  count = 0
+  render = () => (
+    <>
+      {this.count}
+      <button onClick={() => this.count++}>+</button>
+      <button onClick={() => this.count--}>-</button>
+    </>
+  )
+}
 ```
 
-There's the `.focus` method, which can be used as a selector/lens. **xoid** is based on immutable updates, so if you "surgically" set state of a focused branch, changes will propagate to the root.
+
+### Using the `runes.macro`
 
 ```js
-import create from 'xoid'
+import $ from 'runes.macro'
 
-const $atom = create({ deeply: { nested: { alpha: 5 } } })
-const previousValue = $atom.value
-
-// select `.deeply.nested.alpha`
-const $alpha = $atom.focus(s => s.deeply.nested.alpha)
-$alpha.set(6)
-
-// root state is replaced with new immutable state
-assert($atom.value !== previousValue) // ✅
-assert($atom.value.deeply.nested.alpha === 6) // ✅
+const Counter = () => {
+  let count = $(0)
+  return () => (
+    <>
+      {count}
+      <button onClick={() => count++}>+</button>
+      <button onClick={() => count--}>-</button>
+    </>
+  )
+}
 ```
+> `runes.macro` is inspired by [Svelte 5's Runes](https://svelte.dev/blog/runes). It's a reactivity transform using the `babel-plugin-macros`.
 
-### Derived state
+## Full demonstration
 
-State can be derived from other atoms. This API was heavily inspired by **Recoil**.
+Observe the following app:
 
+`~/components/App.tsx`
 ```js
-const $alpha = create(3)
-const $beta = create(5)
-// derived atom
-const $sum = create((read) => read($alpha) + read($beta))
-```
+// @jsxImportSource doja
+import Doja, { create, effect, inject, type InjectionKey } from 'doja'
 
-Alternatively, `.map` method can be used to quickly derive the state from a single atom.
+const theme = { background: 'pink' }
 
-```js
-const $alpha = create(3)
-// derived atom
-const $doubleAlpha = $alpha.map((s) => s * 2)
-```
-> Atoms are lazily evaluated. This means that the callback functions of `$sum` and `$doubleAlpha` in this example won't execute until the first subscription to these atoms. This is a performance optimization.
+const ThemeSymbol: InjectionKey<typeof theme> = Symbol()
 
-### Subscriptions
-
-For subscriptions, `subscribe` and `watch` are used. They are the same, except `watch` runs the callback immediately, while `subscribe` waits for the first update after subscription.
-
-```js
-const unsub = $atom.subscribe((state, previousState) => {
-  console.log(state, previousState)
-})
-
-// later
-unsub()
-```
-> To cleanup side-effects, a function can be returned in the subscriber function. (Just like `React.useEffect`)
-
-## Integrations
-
-### <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/react.ico" width="16"/> React
-
-Just use **@xoid/react** and import `useAtom`. No context providers are needed.
-
-```js
-import { useAtom } from '@xoid/react'
-
-// in a React component
-const state = useAtom(atom)
-```
-
-### <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/vue.png" width="16"/> Vue
-
-Just use `@xoid/vue` and import `useAtom`.
-
-```html
-<script setup>
-import { useAtom } from '@xoid/vue'
-import { myAtom } from './my-atom'
-
-const value = useAtom(myAtom)
-</script>
-
-<template>
-  <div>{{ value }}</div>
-</template>
-```
-
-
-### <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/svelte.png" width="16"/> Svelte
-
-Just use `@xoid/svelte` and import `useAtom`.
-
-```html
-<script>
-  import { useAtom } from '@xoid/svelte'
-  import { myAtom } from './my-atom'
-  let atom = useAtom(myAtom)
-
-</script>
-
-<header>{$atom}</header>
-```
-
-### 🔥 Isomorphic component logic
-
-**xoid** takes component logic seriously. The main package has `effect` and `inject` exports. With them, you can write component logic ONCE and make it run across different frameworks. 
-
-The following function is called a "setup function".
-All `@xoid/react`, `@xoid/vue`, and `@xoid/svelte` modules have an isomorphic `useSetup` function that can consume functions like this.
-
-```js
-import create, { effect, inject, Atom } from 'xoid'
-import { ThemeSymbol } from './theme'
-
-export const CounterSetup = ($props: Atom<{ initialValue: number }>) => {
-  const { initialValue } = $props.value
-
-  const $counter = create(initialValue)
-  const increment = () => $counter.update((s) => s + 1)
-  const decrement = () => $counter.update((s) => s - 1)
-
-  effect(() => {
-    console.log('mounted')
-    return () => console.log('unmounted')
-  })
-
+const Counter = (props: { initalValue: number }) => {
   const theme = inject(ThemeSymbol)
-  console.log("theme is obtained using context:", theme)
+  const count = create(props.initialValue)
 
-  return { $counter, increment, decrement }
+  return () => (
+    <div style={{ background: theme.background }}>
+      {count.value}
+      <button onClick={() => count.value++}>+</button>
+      <button onClick={() => count.value--}>-</button>
+    </div>
+  )
 }
-```
+Counter.observedAttributes = ['initialValue'] // Vue and Web components need this beforehand*
+Counter.tagName = 'my-counter' // Web components need this
 
-With **xoid**, you can effectively replace the following framework-specific APIs:
+const ThemeProvider = Doja(ThemeSymbol)
 
-|  | <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/logo-plain.svg" width="16"/> xoid | <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/react.ico" width="16"/> React | <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/vue.png" width="16"/> Vue | <img src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/integrations/svelte.png" width="16"/> Svelte |
-|---|---|---|---|---|
-| State | `create` | `useState` / `useReducer` | `reactive` / `ref` | `readable` / `writable` |
-| Derived state | `create` | `useMemo` | `computed` | `derived` |
-| Lifecycle | `effect` | `useEffect` | `onMounted`, `onUnmounted` | `onMount`, `onDestroy` |
-| Dependency injection | `inject` | `useContext` | `inject` | `getContext` |
-
-> **✨ Opinionated comment ✨**
->
-> **xoid**'s mental model of component logic, just like Vue and Svelte, is a static closure instead of a render function. From a static closure's perspective, most React hooks are complete bloat. Bringing this kind of component mental model to React was one of the first reasons behind **xoid**'s existence.
-
-### Redux Devtools
-
-Import `@xoid/devtools` and set a `debugValue` to your atom. It will send values to the Redux Devtools Extension.
-
-```js
-import { devtools } from '@xoid/devtools'
-import create from 'xoid'
-devtools() // run once
-
-const atom = create(
-  { alpha: 5 }, 
-  (atom) => {
-    const $alpha = atom.focus(s => s.alpha)
-    return {
-      resetState: () => atom.set({ alpha: 5 })
-      deeply: { nested: { action: () => $alpha.update((s) => s + 1) } }
-    }
-  }
-)
-
-atom.debugValue = 'myAtom' // enable watching it by the devtools
-
-const { deeply, incrementAlpha } = atom.actions
-incrementAlpha() // logs "(myAtom).incrementAlpha"
-deeply.nested.action() // logs "(myAtom).deeply.nested.action"
-atom.focus(s => s.alpha).set(25)  // logs "(myAtom) Update ([timestamp])
-```
-
-## Finite state machines
-
-No additional syntax is required for state machines. Just use the `create` function.
-
-```js
-import create from 'xoid'
-import { useAtom } from '@xoid/react'
-
-const createMachine = () => {
-  const red = { color: '#f00', onClick: () => atom.set(green) }
-  const green = { color: '#0f0', onClick: () => atom.set(red) }
-  const atom = create(red)
-  return atom
+const App = () => {
+  effect(() => {
+    console.log('i was mounted')
+    return () => console.log('i was unmounted')
+  })
+  
+  return (
+    <ThemeProvider value={theme}>
+      <Counter initialValue={0} />
+    </ThemeProvider>
+  )
 }
 
-// in a React component
-const { color, onClick } = useAtom(createMachine)
-return <div style={{ color }} onClick={onClick} />
+export { theme, ThemeSymbol, ThemeProvider, Counter, App }
+```
+> *Hint: you can use [ts-keysof.macro](`https://www.npmjs.com/package/ts-keysof.macro`) to automatically generate observed attributes from prop types
+
+
+We can export them as React and Vue components simply as:
+
+`~/components-react/App.tsx`
+```js
+import toReact from '@doja/react'
+import { App, Counter as CounterDoja, ThemeProvider as ThemeProviderDoja } from '~/components/App'
+
+export const Counter = toReact(CounterDoja)
+export const ThemeProvider = toReact(ThemeProviderDoja)
+export default toReact(App)
 ```
 
----
+`~/components-vue/App.tsx`
+```js
+import toVue from '@doja/vue'
+import { App, Counter as CounterDoja, ThemeProvider as ThemeProviderDoja } from '~/components/App'
 
-If you've read until here, you have enough knowledge to start using **xoid**. You can refer to the [documentation website](https://xoid.dev) for more.
+export const Counter = toVue(CounterDoja)
+export const ThemeProvider = toVue(ThemeProviderDoja)
+export default toVue(App)
+```
+Alternatively, you can re-export the `ThemeSymbol` for Vue users, since `provide`/`inject` is a common practice in Vue.
+```js
+import { InjectionKey } from 'vue'
+import { theme, ThemeSymbol as ThemeSymbolDoja } from '~/components/App'
+
+export const ThemeSymbol = ThemeSymbolDoja as InjectionKey<typeof theme>
+```
+
+## API
+
+Here are the framework-specific APIs that you can replace with **Doja**:
+
+|  | <img src="https://raw.githubusercontent.com/xoidlabs/xoid/master/assets/logo-plain.svg" width="16"/> Doja | <img src="https://raw.githubusercontent.com/xoidlabs/xoid/master/assets/integrations/react.ico" width="16"/> React | <img src="https://raw.githubusercontent.com/xoidlabs/xoid/master/assets/integrations/vue.png" width="16"/> Vue |
+|---|---|---|---|
+| State | `create`, `reactive` | `useState` | `ref`, `reactive` |
+| Derived state | `create` | `useMemo` | `computed` |
+| Lifecycle | `effect` | `useEffect` | `onMounted`, `onUnmounted` |
+| Context | `inject` | `useContext` | `inject` |
+| Watch state | `watch` | *none* | `watch`|
+| Converting between state APIs | `toAtom` | *none* | `toRef`|
 
 
-## Why **xoid**?
 
-<img align="right" width="50%" src="https://raw.githubusercontent.com/onurkerimov/xoid/master/assets/diagram.png" alt="Venn diagram that shows that xoid is able to unify global, local state, and finite state machines across React, Vue, Svelte, and vanilla JS">
+<!-- ### How it works
 
-- Easy to learn
-- Small bundle size
-- Framework-agnostic
-- No middlewares needed
-- First-class Typescript support
-- Easy to work with nested states
-- Computed values, transient updates
-- Same API to rule them all!
-  - Global state, Local state, FSMs, Streams
-  - React, Vue, Svelte, Vanilla JavaScript
-
-## Packages
-
-- `xoid` - Core package
-- `@xoid/react` - **React** integration
-- `@xoid/vue` - **Vue** integration
-- `@xoid/svelte` - **Svelte** integration
-- `@xoid/devtools` - **Redux Devtools** integration
-- `@xoid/lite` - Lighter version with less features
-- `@xoid/feature` - A plugin system oriented in ES6 classes
-
-
-## Thanks
-Following awesome projects inspired **xoid** a lot.
-- [Recoil](https://github.com/facebookexperimental/Recoil)
-- [zustand](https://github.com/pmndrs/zustand)
-- [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree)
-
-Thanks to [Anatoly](http://a-maslennikov.com/) for the pencil&ruler icon [#24975](https://www.flaticon.com/free-icon/ruler_245975).
-
+**Doja** is just a thin layer over the 1.2kB state management library **xoid**. It doesn't have a dedicated virtual dom or reconciler. Doja makes use of the isomorphic JSX runtimes of React and Vue. Both React and Vue hasisomorphic `react/jsx-runtime` and `vue/jsx-runtime` modules. This is how Babel or Typescript uses to transpile your JSX under the hood. Both JSX runtimes has isomorphic exports named `jsx`, `jsxs`, `Fragment`. -->

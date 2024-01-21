@@ -1,13 +1,36 @@
-import type { Atom, GetState } from 'xoid'
-import jsxRuntime from 'doja/jsx-runtime'
+// @ts-nocheck
+import { Reactive } from '@xoid/reactive'
 
-export { create } from 'xoid'
-export type { Atom } from 'xoid'
+export * from 'xoid'
 export { effect, inject } from 'xoid/setup'
 export type { InjectionKey } from 'xoid/setup'
-export { reactive, computed, watch, toReactive, toAtom } from '@xoid/reactive'
+export * from '@xoid/reactive'
 
-export type DojaInput<P, _S> = ($props: Atom<P>) => (get: GetState) => JSX.Element | null
+const isDoja = (item) => typeof item === 'symbol' || (typeof item === 'function' && item[DOJA])
+
+const memoizedTransform = (transformer, type) => {
+  if (!transformer.map) transformer.map = new WeakMap()
+  const attempt = transformer.map.get(type)
+  if (attempt) return attempt
+  const component = transformer(type)
+  transformer.map.set(component)
+  return component
+}
+
+export const getCreateElement = function (jsx, transformer) {
+  return (type, ...rest) => {
+    if (isDoja(type)) type = memoizedTransform(transformer, type)
+    return jsx(type, ...rest)
+  }
+}
+
+export const swapJsxRuntime = (jsxRuntime, transformer) => {
+  jsxRuntime.jsx = getCreateElement(jsxRuntime.jsx, transformer)
+  jsxRuntime.jsxs = getCreateElement(jsxRuntime.jsxs, transformer)
+  jsxRuntime.Fragment = getCreateElement(jsxRuntime.Fragment, transformer)
+}
+
+export type DojaInput<P, _S> = (props: Reactive<P>) => () => JSX.Element | null
 
 type ToProps<P, S> = S extends string ? P & Record<`slot-${S}`, JSX.Element> : P
 
@@ -18,32 +41,17 @@ type AdditionalData<S> = {
   slots?: S[]
 }
 
-const satisfy = <T,>(predicate: () => T, satisfier: () => void): Exclude<T, undefined> => {
-  const result = predicate()
-  if (!result) {
-    satisfier()
-    return predicate() as Exclude<T, undefined>
-  }
-  return result as Exclude<T, undefined>
-}
-
-const getFC = <U, V>(runtime: ((input: U) => V) & { map?: Map<U, V> }, fn: U) => {
-  const map = satisfy(
-    () => runtime.map,
-    () => (runtime.map = new Map())
-  )
-  return satisfy(
-    () => map.get(fn),
-    () => map.set(fn, runtime(fn))
-  )
-}
+const DOJA = Symbol()
 
 const Doja = <P, S = undefined>(fn: DojaInput<P, S>): DojaFC<P, S> => {
-  const ans = (props: any) => (jsxRuntime as any).jsx(getFC((Doja as any).runtime, fn), props)
-  ans.setup = fn
-  return ans
+  // @ts-ignore
+  fn[DOJA] = true
+  // @ts-ignore
+  return fn
 }
 
-export default Doja
+// secret, untyped
+;(Doja as any).symbol = DOJA
 
+export default Doja
 export const slots = (key?: string) => (Doja as any).runtime.slots(key)

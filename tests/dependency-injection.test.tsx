@@ -1,4 +1,4 @@
-import { inject, InjectionKey } from 'xoid'
+import { inject, InjectionKey } from 'xoid/setup'
 import { useSetup as useSetupReact } from '@xoid/react'
 import toReact from '@doja/react'
 import { useSetup as useSetupVue } from '@xoid/vue'
@@ -18,7 +18,6 @@ describe('Same setup, using the same injection key can be used by React and Vue'
       const num = useSetupReact(StoreSetup)
       return <div>injected: {num}</div>
     }
-
     const { findByText } = renderReact(
       // @ts-ignore
       <ProviderReact value={5}>
@@ -27,18 +26,15 @@ describe('Same setup, using the same injection key can be used by React and Vue'
     )
     await findByText('injected: 5')
   })
-
   it('Vue', async () => {
     const ProviderVue = toVue(StoreKey, 0)
     const AppVue = defineComponent(() => {
       const num = useSetupVue(StoreSetup)
       return () => h('div', ['injected: ', num])
     })
-
     const Wrapper = defineComponent(() => {
-      return () => h(ProviderVue, { value: 5 }, [h(AppVue), ' ', h('div', {}, 'other slot')])
+      return () => h(ProviderVue, { value: 5 }, () => [h(AppVue), ' ', h('div', {}, 'other slot')])
     })
-
     const { findByText } = renderVue(Wrapper)
     await findByText('injected: 5')
     await findByText('other slot')

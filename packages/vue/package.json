@@ -1,6 +1,6 @@
 {
-  "name": "@doja/vue",
-  "version": "0.1.0",
+  "name": "doja-vue",
+  "version": "0.1.6",
   "main": "./index.js",
   "module": "./index.esm.js",
   "types": "./index.d.ts",
@@ -22,11 +22,11 @@
     "xoid"
   ],
   "dependencies": {
-    "doja": ">=0.1.0",
-    "xoid": ">=1.0.0-beta.10",
-    "@xoid/vue": ">=0.5.0"
+    "doja": ">=0.1.2",
+    "xoid": ">=1.0.0-beta.11",
+    "@xoid/vue": ">=0.5.1"
   },
   "peerDependencies": {
-    "vue": "*"
+    "vue": "<=3.1"
   }
 }

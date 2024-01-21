@@ -3,6 +3,8 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
+      "doja/common": ["./packages/doja/src/common"],
+      "@doja/*/auto": ["./packages/*/src/auto"],
       "doja/jsx-runtime": ["./packages/doja/copy/jsx-runtime"],
       "doja": ["./packages/doja/src"],
       "@doja/*": ["./packages/*/src"]
@@ -15,7 +17,10 @@
     "isolatedModules": true,
     "declaration": true,
     "declarationDir": "dist/ts-out",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+
   },
-  "include": ["packages", "tests"]
+  "include": ["packages"],
+  "exclude": ["tests"]
 }
