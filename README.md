@@ -3,8 +3,8 @@
 **Doja** is the first *headless framework* ever that lets you write components **ONCE**, then turn them into real Vue, React, or web components! This is achieved **WITHOUT** transpilation, plugins, or preprocessors.
 
 By itself, **Doja** doesn't have a lifecycle, context, or JSX implementation. **Doja**'s `effect` or `inject` exports connect to React's `useEffect` or Vue's `onMounted`/`onUnmounted` under the hood. Similarly, the `doja/jsx-runtime` is simply an empty object forwarded to React or Vue's own JSX runtimes. There are 3 packages at the moment:
-- `@doja/react` - React integration
-- `@doja/vue` - Vue integration
+- `doja-react` - React integration
+- `doja-vue` - Vue integration
 - `@doja/pce` - Web components using the `preact-custom-element` package
 
 A **Doja** component is so simplistic, and you can use one of the following flavors:
@@ -112,7 +112,7 @@ We can export them as React and Vue components simply as:
 
 `~/components-react/App.tsx`
 ```js
-import toReact from '@doja/react'
+import toReact from 'doja-react'
 import { App, Counter as CounterDoja, ThemeProvider as ThemeProviderDoja } from '~/components/App'
 
 export const Counter = toReact(CounterDoja)
@@ -122,7 +122,7 @@ export default toReact(App)
 
 `~/components-vue/App.tsx`
 ```js
-import toVue from '@doja/vue'
+import toVue from 'doja-vue'
 import { App, Counter as CounterDoja, ThemeProvider as ThemeProviderDoja } from '~/components/App'
 
 export const Counter = toVue(CounterDoja)

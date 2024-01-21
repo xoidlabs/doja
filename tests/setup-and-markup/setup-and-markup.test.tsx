@@ -4,8 +4,8 @@ import { fireEvent, render as renderReact } from '@testing-library/react'
 import { render as renderVue } from '@testing-library/vue'
 import Counter from './Counter'
 import { h, defineComponent } from 'vue'
-import '@doja/react/auto'
-import '@doja/vue/auto'
+import 'doja-react/auto'
+import 'doja-vue/auto'
 
 describe('Same isomorphic component works in React and Vue', () => {
   const loggerFn = jest.fn()

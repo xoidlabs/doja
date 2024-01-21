@@ -1,7 +1,7 @@
 /** @jsxImportSource doja */
 import Doja from 'doja'
-import '@doja/react/auto'
-import '@doja/vue/auto'
+import 'doja-react/auto'
+import 'doja-vue/auto'
 
 import { h } from 'vue'
 import { render as renderVue } from '@testing-library/vue'

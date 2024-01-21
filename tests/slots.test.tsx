@@ -1,7 +1,7 @@
 /** @jsxImportSource doja */
 import Doja, { slots } from 'doja'
-import toReact from '@doja/react'
-import toVue from '@doja/vue'
+import toReact from 'doja-react'
+import toVue from 'doja-vue'
 import React from 'react'
 import { defineComponent, h } from 'vue'
 import { render as renderReact } from '@testing-library/react'

@@ -2,8 +2,8 @@
 import create from 'xoid'
 import { effect } from 'xoid/setup'
 
-import toReact from '@doja/react'
-import toVue from '@doja/vue'
+import toReact from 'doja-react'
+import toVue from 'doja-vue'
 import React from 'react'
 import { render as renderReact } from '@testing-library/react'
 import { render as renderVue } from '@testing-library/vue'
