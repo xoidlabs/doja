@@ -1,6 +1,6 @@
 # Doja
 
-**Doja** lets you write components **ONCE**, then turn them into real Vue, React, or web components! This is achieved **WITHOUT** transpilation, plugins, or preprocessors.
+**Doja** is the first *headless framework* ever that lets you write components **ONCE**, then turn them into real Vue, React, or web components! This is achieved **WITHOUT** transpilation, plugins, or preprocessors.
 
 By itself, **Doja** doesn't have a lifecycle, context, or JSX implementation. **Doja**'s `effect` or `inject` exports connect to React's `useEffect` or Vue's `onMounted`/`onUnmounted` under the hood. Similarly, the `doja/jsx-runtime` is simply an empty object forwarded to React or Vue's own JSX runtimes. There are 3 packages at the moment:
 - `@doja/react` - React integration
@@ -26,7 +26,7 @@ const Counter = () => {
 }
 ```
 
-### Class components
+### Class components (not implemented yet)
 
 ```js
 class Counter extends Doja {
@@ -42,10 +42,10 @@ class Counter extends Doja {
 ```
 
 
-### Using the `runes.macro`
+### Using the `doja/macro` (not implemented yet)
 
 ```js
-import $ from 'runes.macro'
+import $ from 'doja/macro'
 
 const Counter = () => {
   let count = $(0)
@@ -58,7 +58,7 @@ const Counter = () => {
   )
 }
 ```
-> `runes.macro` is inspired by [Svelte 5's Runes](https://svelte.dev/blog/runes). It's a reactivity transform using the `babel-plugin-macros`.
+> `doja/macro` is inspired by [Svelte 5's Runes](https://svelte.dev/blog/runes). It's a reactivity transform using the `babel-plugin-macros`.
 
 ## Full demonstration
 
