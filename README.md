@@ -155,3 +155,365 @@ Here are the framework-specific APIs that you can replace with **Doja**:
 <!-- ### How it works
 
 **Doja** is just a thin layer over the 1.2kB state management library **xoid**. It doesn't have a dedicated virtual dom or reconciler. Doja makes use of the isomorphic JSX runtimes of React and Vue. Both React and Vue hasisomorphic `react/jsx-runtime` and `vue/jsx-runtime` modules. This is how Babel or Typescript uses to transpile your JSX under the hood. Both JSX runtimes has isomorphic exports named `jsx`, `jsxs`, `Fragment`. -->
+
+## Comparison to React
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+
+<td>
+
+```js
+import { create } from 'doja';
+
+function Counter() {
+  const $count = create(0);
+  const increment = () => $count.value++;
+  const decrement = () => $count.value--;
+
+  return () => (
+    <div>
+      <p>Count: {$count.value}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
+```
+
+</td>
+<td>
+
+```js
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
+```
+
+</td>
+</tr>
+</table>
+
+### `useRef`: Doja doesn't need it.
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+
+<td>
+
+```js
+import { create, effect } from 'doja';
+
+function MyComponent() {
+  const myInputRef = create();
+
+  effect(() => {
+    myInputRef.value.focus();
+  }, []);
+
+  return <input ref={myInputRef} />;
+}
+```
+
+</td>
+<td>
+
+```js
+import { useRef, useEffect } from 'react';
+
+function MyComponent() {
+  const myInputRef = useRef();
+
+  useEffect(() => {
+    myInputRef.current.focus();
+  }, []);
+
+  return <input ref={myInputRef.set} />;
+}
+```
+
+</td>
+</tr>
+</table>
+
+> No need for an extra hook such as `useRef`. Simply use the same atom creator function.
+
+
+### `createContext`: Doja doesn't need it.
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+
+<td>
+
+```js
+import { inject } from 'doja';
+
+const MySymbol = Symbol();
+
+function ParentComponent() {
+  return () => (
+    <MySymbol value={'Hello from Context!'}>
+      <ChildComponent />
+    </MySymbol>
+  );
+}
+
+function ChildComponent() {
+  const contextValue = inject(MySymbol);
+
+  return () => <div>{contextValue}</div>;
+}
+```
+
+</td>
+<td>
+
+```js
+import { createContext, useContext } from 'react';
+
+const MyContext = createContext();
+
+function ParentComponent() {
+  return (
+    <MyContext.Provider value={'Hello from Context!'}>
+      <ChildComponent />
+    </MyContext.Provider>
+  );
+}
+
+function ChildComponent() {
+  const contextValue = useContext(MyContext);
+
+  return <div>{contextValue}</div>;
+}
+```
+
+</td>
+</tr>
+</table>
+
+> Doja can use ES6 symbols as a context provider, just like how Vue does.
+
+### `forwardRef`: Doja doesn't need it.
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+
+<td>
+
+```js
+const MyInput = (props, ref) => {
+  return () => <input ref={ref} />;
+};
+
+function ParentComponent() {
+  const myInputRef = useRef();
+
+  return () => <MyInput ref={myInputRef.set} />;
+}
+```
+
+</td>
+<td>
+
+```js
+import { forwardRef } from 'react';
+
+const MyInput = forwardRef((props, ref) => {
+  return <input ref={ref} />;
+});
+
+function ParentComponent() {
+  const myInputRef = useRef();
+
+  return <MyInput ref={myInputRef} />;
+}
+```
+
+</td>
+</tr>
+</table>
+
+> Doja doesn't need a `forwardRef` export. If you define a component with a second argument, it'll simply use it to forward the ref.
+
+### `useMemo`
+
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+<td>
+
+```js
+import { create } from 'doja';
+
+const ExampleComponent = () => {
+  const $count = create(0);
+
+  const $squared = $count.map((count) => {
+    console.log('Computing squared value...');
+    return count * count;
+  });
+
+  return () => (
+    <div>
+      <p>Count: {$count.value}</p>
+      <p>Squared Value: {$squared.value}</p>
+      <button onClick={() => $count.value++}>Increment</button>
+    </div>
+  );
+};
+```
+
+</td>
+<td>
+
+```js
+import { useState, useMemo } from 'react';
+
+const ExampleComponent = () => {
+  const [count, setCount] = useState(0);
+
+  const squaredValue = useMemo(() => {
+    console.log('Computing squared value...');
+    return count * count;
+  }, [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Squared Value: {squaredValue}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+```
+
+</td>
+</tbody>
+</table>
+
+
+### `useImperativeHandle`: Doja doesn't need it.
+
+<table>
+<thead><tr>
+  <th align="left">Doja</th>
+  <th align="left">React</th>
+</tr></thead>
+<tbody><tr valign="top">
+
+<td>
+
+```js
+import { create } from 'react';
+
+// Child component that forwards the ref
+const ChildComponent = (props, ref) => {
+  const inputRef = create();
+  ref.value = {
+    focus: () => {
+      inputRef.value.focus();
+    },
+  }
+
+  return () => <input ref={inputRef.set} />;
+};
+
+// Parent component using ChildComponent with ref
+function ParentComponent() {
+  const childRef = create();
+
+  const handleClick = () => {
+    // Call the exposed focus method on the child component
+    childRef.value.focus();
+  };
+
+  return () => (
+    <div>
+      <ChildComponent ref={childRef.set} />
+      <button onClick={handleClick}>Focus Input</button>
+    </div>
+  );
+}
+```
+
+</td>
+<td>
+
+```js
+import { useRef, useImperativeHandle, forwardRef } from 'react';
+
+// Child component that forwards the ref
+const ChildComponent = forwardRef((props, ref) => {
+  const inputRef = useRef();
+
+  // Expose only the focus method to the parent component
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    },
+  }));
+
+  return <input ref={inputRef} />;
+});
+
+// Parent component using ChildComponent with ref
+function ParentComponent() {
+  const childRef = useRef();
+
+  const handleClick = () => {
+    // Call the exposed focus method on the child component
+    childRef.current.focus();
+  };
+
+  return (
+    <div>
+      <ChildComponent ref={childRef} />
+      <button onClick={handleClick}>Focus Input</button>
+    </div>
+  );
+}
+```
+
+</td>
+</tr>
+</table>
+
+> Like we said: "Most hooks are complete bloat from a static closure's perspective.
+
+<!-- ### `useLayoutEffect`: Doja doesn't need it.
+
+TODO -->
